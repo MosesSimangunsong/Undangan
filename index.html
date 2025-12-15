@@ -1,445 +1,206 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>For Threenines 💖</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memories</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
     <style>
-      :root {
-        --primary-pink: #ff9a9e;
-        --deep-pink: #ff6b6b;
-        --soft-white: #fff5f5;
-        --glass-bg: rgba(255, 255, 255, 0.25);
-        --glass-border: rgba(255, 255, 255, 0.5);
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #fccb90 0%, #d57eeb 100%);
-        height: 100vh;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #4a4a4a;
-        position: relative;
-      }
-
-      /* Floating Hearts Background */
-      .bg-hearts {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-        overflow: hidden;
-      }
-
-      .heart-bg {
-        position: absolute;
-        bottom: -10vh;
-        background-color: rgba(255, 255, 255, 0.3);
-        display: inline-block;
-        height: 30px;
-        width: 30px;
-        margin: 0 10px;
-        transform: rotate(-45deg);
-        animation: float 6s infinite linear;
-      }
-
-      .heart-bg::after,
-      .heart-bg::before {
-        content: "";
-        background-color: inherit;
-        border-radius: 50%;
-        height: 30px;
-        width: 30px;
-        position: absolute;
-      }
-
-      .heart-bg::before {
-        top: -15px;
-        left: 0;
-      }
-      .heart-bg::after {
-        left: 15px;
-        top: 0;
-      }
-
-      @keyframes float {
-        0% {
-          transform: translateY(0) rotate(-45deg) scale(0.8);
-          opacity: 0;
+        body {
+            font-family: 'Lora', serif;
+            /* GANTI BACKGROUND POLOS DENGAN GRADIENT ROMANTIS */
+            background: linear-gradient(180deg, #fff0f5 0%, #ffe4e1 100%);
+            min-height: 100vh;
+            scroll-behavior: smooth;
+            position: relative;
         }
-        50% {
-          opacity: 0.6;
+
+        h1, h2, .handwriting {
+            font-family: 'Dancing Script', cursive;
         }
-        100% {
-          transform: translateY(-120vh) rotate(-45deg) scale(1.2);
-          opacity: 0;
+
+        /* Judul dengan sedikit bayangan agar lebih pop */
+        h1 {
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.2);
         }
-      }
+        
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* Intro Overlay (Click to Start) */
-      #intro-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 107, 107, 0.95);
-        z-index: 999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        cursor: pointer;
-        transition: opacity 0.8s ease;
-      }
-
-      #intro-overlay h1 {
-        color: white;
-        font-size: 2rem;
-        animation: pulse 1.5s infinite;
-      }
-
-      /* Main Container */
-      .container {
-        position: relative;
-        z-index: 10;
-        background: var(--glass-bg);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border: 1px solid var(--glass-border);
-        border-radius: 24px;
-        padding: 40px 30px;
-        text-align: center;
-        max-width: 400px;
-        width: 90%;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 1s ease;
-        display: none; /* Hidden initially */
-      }
-
-      .show-container {
-        opacity: 1;
-        transform: translateY(0);
-        display: block;
-      }
-
-      /* Photo Frame */
-      .photo-frame {
-        width: 150px;
-        height: 150px;
-        margin: 0 auto 20px;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 4px solid white;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        position: relative;
-      }
-
-      .photo-frame img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      /* Pink Overlay on Photo */
-      .photo-frame::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 105, 180, 0.2); /* Soft Pink Overlay */
-        pointer-events: none;
-      }
-
-      /* Typography */
-      h1.title {
-        font-family: "Great Vibes", cursive;
-        font-size: 2.5rem;
-        color: #d63384;
-        margin-bottom: 5px;
-      }
-
-      h2.subtitle {
-        font-size: 1rem;
-        font-weight: 300;
-        color: #666;
-        margin-bottom: 20px;
-      }
-
-      p.message {
-        font-size: 0.95rem;
-        line-height: 1.6;
-        color: #444;
-        margin-bottom: 20px;
-      }
-
-      .details {
-        background: rgba(255, 255, 255, 0.4);
-        padding: 15px;
-        border-radius: 12px;
-        margin-bottom: 25px;
-        font-size: 0.9rem;
-      }
-
-      .details i {
-        color: var(--deep-pink);
-        margin-right: 5px;
-      }
-
-      /* Buttons */
-      .btn-group {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-      }
-
-      .btn {
-        padding: 12px 30px;
-        border: none;
-        border-radius: 50px;
-        font-family: "Poppins", sans-serif;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 1rem;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .btn-yes {
-        background: white;
-        color: var(--deep-pink);
-        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-      }
-
-      .btn-course {
-        background: var(--deep-pink);
-        color: white;
-        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
-      }
-
-      .btn:hover {
-        transform: scale(1.05) translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
-      }
-
-      /* Audio Control (Hidden but functional) */
-      #bg-music {
-        display: none;
-      }
-
-      /* Music Icon Control */
-      .music-control {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        z-index: 20;
-        background: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        color: var(--deep-pink);
-        animation: spin 4s linear infinite;
-      }
-
-      @keyframes spin {
-        100% {
-          transform: rotate(360deg);
+        /* Animasi Fade In */
+        .fade-in {
+            animation: fadeIn 1.5s ease-in forwards;
+            opacity: 0;
         }
-      }
-      @keyframes pulse {
-        0% {
-          transform: scale(1);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        50% {
-          transform: scale(1.1);
+
+        /* Tombol Musik Berputar */
+        .spin-slow { animation: spin 4s linear infinite; }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-        100% {
-          transform: scale(1);
+
+        /* --- TAMBAHAN: ANIMASI HATI MELAYANG (BACKGROUND) --- */
+        .hearts-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: -1; /* Di belakang konten */
+            pointer-events: none; /* Agar tidak mengganggu klik */
         }
-      }
+        
+        .heart {
+            position: absolute;
+            bottom: -50px;
+            color: rgba(255, 182, 193, 0.6); /* Warna pink transparan */
+            font-size: 20px;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        }
     </style>
-  </head>
-  <body>
-    <div id="intro-overlay" onclick="startExperience()">
-      <h1>💌</h1>
-      <p style="color: white; margin-top: 10px">Tap to open invitation</p>
-    </div>
+</head>
+<body class="text-gray-800 antialiased">
 
-    <div
-      class="music-control"
-      onclick="toggleMusic()"
-      id="music-btn"
-      style="display: none"
-    >
-      <span>🎵</span>
+    <div class="hearts-bg">
+        <i class="fas fa-heart heart" style="left: 10%; animation-duration: 15s; font-size: 25px;"></i>
+        <i class="fas fa-heart heart" style="left: 20%; animation-duration: 18s; animation-delay: 2s; font-size: 15px;"></i>
+        <i class="fas fa-heart heart" style="left: 35%; animation-duration: 12s; animation-delay: 5s; font-size: 30px;"></i>
+        <i class="fas fa-heart heart" style="left: 50%; animation-duration: 20s; animation-delay: 0s; font-size: 20px;"></i>
+        <i class="fas fa-heart heart" style="left: 65%; animation-duration: 14s; animation-delay: 3s; font-size: 28px;"></i>
+        <i class="fas fa-heart heart" style="left: 80%; animation-duration: 16s; animation-delay: 7s; font-size: 18px;"></i>
+        <i class="fas fa-heart heart" style="left: 90%; animation-duration: 19s; animation-delay: 4s; font-size: 24px;"></i>
     </div>
 
     <audio id="bg-music" loop>
-      <source src="sweetener.mp3" type="audio/mpeg" />
-      Your browser does not support the audio element.
+        <source src="hollow.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
     </audio>
 
-    <div class="bg-hearts" id="hearts-container"></div>
-
-    <div class="container" id="main-card">
-      <div class="photo-frame">
-        <img src="foto.jpeg" alt="" />
-      </div>
-
-      <h1 class="title">Hi, Threenines</h1>
-
-      <p class="message">
-        Good food, great view, and the best company. <br />
-        Join me for lunch?
-      </p>
-
-      <div class="details">
-        <p>📅 <strong>Hari ini, 14 Desember 2025</strong></p>
-        <p>🕐 <strong>13:00 WIB</strong></p>
-        <p style="margin-top: 8px; font-style: italic">
-          📍 "A cozy place in Balige, we’ll decide it together."
-        </p>
-      </div>
-
-      <div class="btn-group">
-        <button class="btn btn-yes" onclick="acceptDate()">Yes 💗</button>
-        <button class="btn btn-course" onclick="acceptDate()">
-          Of Course! 🌹
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="music-btn" class="bg-pink-500 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-pink-600 transition transform hover:scale-110 focus:outline-none">
+            <i id="music-icon" class="fas fa-play"></i>
         </button>
-      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <div class="text-center mb-12 fade-in">
+            <h1 class="text-5xl md:text-7xl text-pink-600 mb-4 font-bold">Gallery</h1>
+            <p class="text-lg text-gray-500 italic handwriting">Every picture tells a story of us.</p>
+        </div>
+
+        <div id="gallery-container" class="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 fade-in" style="animation-delay: 0.3s;">
+            </div>
+
+        <footer class="text-center mt-20 text-gray-500 text-sm pb-10 fade-in" style="animation-delay: 0.6s;">
+            <p>We keep this love <i class="fas fa-heart text-pink-500 animate-pulse"></i> in photograph.</p>
+        </footer>
+
     </div>
 
     <script>
-      // 1. Generate Background Hearts
-      function createHearts() {
-        const container = document.getElementById("hearts-container");
-        for (let i = 0; i < 15; i++) {
-          const heart = document.createElement("div");
-          heart.className = "heart-bg";
-          heart.style.left = Math.random() * 100 + "vw";
-          heart.style.animationDuration = Math.random() * 3 + 3 + "s";
-          heart.style.animationDelay = Math.random() * 2 + "s";
-          container.appendChild(heart);
+        // --- KONFIGURASI FILE ---
+        const mediaFiles = [
+            "foto1.jpg",
+            "foto2.jpg",
+            "video1.mp4",
+            "foto3.jpg",
+            "video4.mp4",
+            "foto4.jpg",
+            "video2.mp4",
+            "foto5.jpg",
+            "video3.mp4",
+            "foto6.jpg",
+            "foto7.jpg",
+            "foto8.jpg",
+            "foto9.jpg",
+            // ... tambahkan nama file lainnya di sini
+        ];
+
+        const galleryContainer = document.getElementById('gallery-container');
+
+        // Fungsi untuk mengecek apakah file adalah video
+        function isVideo(filename) {
+            const videoExtensions = ['.mp4', '.mov', '.webm', '.ogg'];
+            return videoExtensions.some(ext => filename.toLowerCase().endsWith(ext));
         }
-      }
 
-      // 2. Start Experience (Audio + Animation)
-      function startExperience() {
-        const overlay = document.getElementById("intro-overlay");
-        const card = document.getElementById("main-card");
-        const music = document.getElementById("bg-music");
-        const musicBtn = document.getElementById("music-btn");
+        // Fungsi render galeri
+        mediaFiles.forEach((file, index) => {
+            const wrapper = document.createElement('div');
+            // Menambahkan background putih semi-transparan pada kartu agar kontras dengan background baru
+            wrapper.className = "break-inside-avoid mb-4 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 bg-white/90 backdrop-blur-sm";
+            
+            let content;
 
-        overlay.style.opacity = "0";
-        setTimeout(() => {
-          overlay.style.display = "none";
-          card.style.display = "block";
-          // Trigger reflow
-          void card.offsetWidth;
-          card.classList.add("show-container");
-          musicBtn.style.display = "flex";
+            if (isVideo(file)) {
+                // Render Video
+                content = `
+                    <video class="w-full h-auto object-cover" controls muted loop playsinline>
+                        <source src="${file}" type="video/mp4">
+                        Video not supported
+                    </video>
+                `;
+            } else {
+                // Render Foto
+                content = `
+                    <img src="${file}" alt="Memory ${index + 1}" class="w-full h-auto object-cover block">
+                `;
+            }
 
-          // Play Music
-          music.play().catch((error) => {
-            console.log("Autoplay blocked, user interaction needed.");
-          });
-        }, 800);
-      }
+            wrapper.innerHTML = content;
+            galleryContainer.appendChild(wrapper);
+        });
 
-      // 3. Toggle Music
-      function toggleMusic() {
-        const music = document.getElementById("bg-music");
-        const btn = document.getElementById("music-btn");
-        if (music.paused) {
-          music.play();
-          btn.style.animationPlayState = "running";
-          btn.innerHTML = "🎵";
-        } else {
-          music.pause();
-          btn.style.animationPlayState = "paused";
-          btn.innerHTML = "🔇";
+        // --- LOGIKA MUSIK ---
+        const music = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+        const musicIcon = document.getElementById('music-icon');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicIcon.classList.remove('fa-music', 'spin-slow');
+                musicIcon.classList.add('fa-play');
+                musicIcon.parentElement.classList.remove('bg-pink-600');
+                musicIcon.parentElement.classList.add('bg-pink-500');
+            } else {
+                music.play().then(() => {
+                    // Berhasil play
+                }).catch(e => {
+                    console.log("Autoplay dicegah browser, perlu interaksi user.");
+                });
+                musicIcon.classList.remove('fa-play');
+                musicIcon.classList.add('fa-music', 'spin-slow'); 
+                musicIcon.parentElement.classList.remove('bg-pink-500');
+                musicIcon.parentElement.classList.add('bg-pink-600');
+            }
+            isPlaying = !isPlaying;
         }
-      }
 
-      // 4. Accept Date Action
-      function acceptDate() {
-        // Confetti Explosion
-        var duration = 3000;
-        var end = Date.now() + duration;
+        musicBtn.addEventListener('click', toggleMusic);
 
-        (function frame() {
-          confetti({
-            particleCount: 5,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0 },
-            colors: ["#ff9a9e", "#ff6b6b", "#ffffff"],
-          });
-          confetti({
-            particleCount: 5,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1 },
-            colors: ["#ff9a9e", "#ff6b6b", "#ffffff"],
-          });
+        // Opsional: Coba play otomatis saat user pertama kali klik/scroll di halaman
+        document.body.addEventListener('click', function() {
+    if (!isPlaying) {
+        toggleMusic();
+    }
+}, { once: true });
 
-          if (Date.now() < end) {
-            requestAnimationFrame(frame);
-          }
-        })();
-
-        // Show Sweet Alert (Simple version) and Redirect
-        const btnGroup = document.querySelector(".btn-group");
-        btnGroup.innerHTML =
-          '<p style="font-weight:bold; color:#ff6b6b; font-size:1.2rem;">See you there! 💖</p>';
-
-        // Redirect to WhatsApp after 2.5 seconds
-        setTimeout(() => {
-          // GANTI NOMOR DI BAWAH INI
-          // Hapus +, spasi, dan strip. Hanya angka saja.
-          let phoneNumber = "6287769178674";
-
-          let message = "I said YES See you at lunch abang Moses!";
-
-          // Panggil variabel phoneNumber di sini agar rapi
-          let url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-            message
-          )}`;
-
-          window.location.href = url;
-        }, 2500);
-      }
-
-      // Initialize Background
-      createHearts();
     </script>
-  </body>
+</body>
 </html>
